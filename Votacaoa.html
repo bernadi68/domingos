@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Recenseamento e Votação 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #007a33;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .formulario {
+            flex: 1 1 400px;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .cartao {
+            width: 85.6mm;
+            height: 53.98mm;
+            background: #e0ffe5;
+            border: 2px solid #007a33;
+            border-radius: 5px;
+            position: relative;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        .cartao img {
+            border-radius: 5px;
+        }
+
+        #fotoPreview {
+            width: 25mm;
+            height: 30mm;
+            position: absolute;
+            top: 10px;
+            left: 5px;
+            border: 1px solid #000;
+            object-fit: cover;
+        }
+
+        #logoPreview {
+            width: 20mm;
+            height: 20mm;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            object-fit: contain;
+        }
+
+        .cartao-info {
+            margin-left: 32mm;
+            font-size: 9pt;
+            line-height: 1.2;
+        }
+
+        .cartao-footer {
+            position: absolute;
+            bottom: 2px;
+            left: 5px;
+            font-size: 7pt;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            padding: 5px;
+            margin: 3px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #007a33;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #005e27;
+        }
+
+        #galeria {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .mini-cartao {
+            width: 85.6mm;
+            height: 53.98mm;
+            background: #e0ffe5;
+            border: 1px solid #007a33;
+            border-radius: 5px;
+            position: relative;
+            padding: 3px;
+            box-sizing: border-box;
+            font-size: 7pt;
+        }
+
+        .mini-cartao img {
+            border-radius: 3px;
+        }
+
+        .mini-foto {
+            width: 25mm;
+            height: 30mm;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            border: 1px solid #000;
+            object-fit: cover;
+        }
+
+        .mini-logo {
+            width: 15mm;
+            height: 15mm;
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            object-fit: contain;
+        }
+
+        .mini-info {
+            margin-left: 32mm;
+            line-height: 1.1;
+        }
+
+        .mini-footer {
+            position: absolute;
+            bottom: 2px;
+            left: 3px;
+            font-weight: bold;
+            font-size: 6pt;
+        }
+
+        .historia {
+            background: white;
+            padding: 10px;
+            margin: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .search-container {
+            margin-top: 10px;
+        }
+
+        .votacao {
+            background: #fff;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .votacao img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .votacao button {
+            display: block;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        .resultado {
+            background: #fff;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>SISTEMA DE RECENSEAMENTO E VOTAÇÃO 2025</header>
+
+    <div class="container">
+        <!-- Formulário de cadastro -->
+        <div class="formulario">
+            <h3>Formulário de Cadastro</h3>
+            <div>
+                <input type="text" id="nome" placeholder="Nome completo" oninput="atualizarCartao()">
+                <input type="date" id="dataNascimento" oninput="atualizarCartao()">
+                <select id="provincia" onchange="atualizarCartao(); atualizarGaleria();">
+                    <option value="">Selecione a Província</option>
+                    <option>Maputo</option>
+                    <option>Gaza</option>
+                    <option>Inhambane</option>
+                    <option>Sofala</option>
+                    <option>Manica</option>
+                    <option>Tete</option>
+                    <option>Zambézia</option>
+                    <option>Nampula</option>
+                    <option>Cabo Delgado</option>
+                    <option>Niassa</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" id="distrito" placeholder="Distrito"
+                    oninput="atualizarCartao(); atualizarGaleria();">
+                <input type="text" id="bairro" placeholder="Bairro" oninput="atualizarCartao()">
+            </div>
+            <div>
+                <label>Foto tipo passe:</label>
+                <input type="file" id="foto" accept="image/*" onchange="previewFoto()">
+            </div>
+            <div>
+                <label>Logotipo:</label>
+                <input type="file" id="logo" accept="image/*" onchange="previewLogo()">
+            </div>
+            <br>
+            <button onclick="cadastrar()">Salvar / Atualizar</button>
+            <button onclick="limparFormulario()">Limpar</button>
+            <button onclick="window.print()">Imprimir</button>
+            <button onclick="mostrarHistorico()">Histórico</button>
+            <div class="search-container">
+                <input type="text" id="pesquisa" placeholder="Pesquisar por nome" oninput="atualizarGaleria()">
+            </div>
+        </div>
+
+        <!-- Cartão Principal -->
+        <div class="cartao" id="cartaoEleitor">
+            <img id="fotoPreview" src="">
+            <img id="logoPreview" src="">
+            <div class="cartao-info">
+                <h4 style="font-size:10pt;">Cartão de Eleitor</h4>
+                <p><b>Nº do Cartão:</b> <span id="numCartao"></span></p>
+                <p><b>Nome:</b> <span id="nomeCartao"></span></p>
+                <p><b>Data Nasc.:</b> <span id="nascCartao"></span></p>
+                <p><b>Província:</b> <span id="provCartao"></span></p>
+                <p><b>Distrito:</b> <span id="distCartao"></span></p>
+                <p><b>Bairro:</b> <span id="bairCartao"></span></p>
+            </div>
+            <div class="cartao-footer">Validade: 2025 / 2026</div>
+        </div>
+    </div>
+
+    <!-- Galeria de Cartões -->
+    <div id="galeria"></div>
+
+    <!-- Histórico -->
+    <div class="historia" id="historico"><b>Histórico de ações:</b><br></div>
+
+    <!-- Área de Votação -->
+    <div class="votacao">
+        <h3>Área de Votação</h3>
+        <p>Digite seu nº do cartão para votar:</p>
+        <input type="text" id="codigoVoto" placeholder="Código de 12 dígitos">
+        <div id="candidatos">
+            <div>
+                <img src="https://via.placeholder.com/80?text=Daniel" alt="Daniel Chapo">
+                <button onclick="votar(1)">1 - Daniel Chapo</button>
+            </div>
+            <div>
+                <img src="https://via.placeholder.com/80?text=Ossufo" alt="Ossufo Mamade">
+                <button onclick="votar(2)">2 - Ossufo Mamade</button>
+            </div>
+            <div>
+                <img src="https://via.placeholder.com/80?text=Venacio" alt="Venacio Mondlane">
+                <button onclick="votar(3)">3 - Venacio Mondlane</button>
+            </div>
+            <div>
+                <img src="https://via.placeholder.com/80?text=Lutero" alt="Lutero Simango">
+                <button onclick="votar(4)">4 - Lutero Simango</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resultado da votação -->
+    <div class="resultado" id="resultadoVotacao">
+        <h3>Resultados da Votação</h3>
+        <div id="resultadoDetalhado"></div>
+    </div>
+
+    <script>
+        let eleitores = JSON.parse(localStorage.getItem("eleitores")) || [];
+        let historico = JSON.parse(localStorage.getItem("historico")) || [];
+        let votos = JSON.parse(localStorage.getItem("votos")) || [];
+
+        function gerarNumero() { return Math.floor(100000000000 + Math.random() * 900000000000).toString(); }
+        function previewFoto() { const file = document.getElementById("foto").files[0]; if (file) document.getElementById("fotoPreview").src = URL.createObjectURL(file); }
+        function previewLogo() { const file = document.getElementById("logo").files[0]; if (file) document.getElementById("logoPreview").src = URL.createObjectURL(file); }
+
+        function atualizarCartao() {
+            document.getElementById("nomeCartao").innerText = document.getElementById("nome").value;
+            document.getElementById("nascCartao").innerText = document.getElementById("dataNascimento").value;
+            document.getElementById("provCartao").innerText = document.getElementById("provincia").value;
+            document.getElementById("distCartao").innerText = document.getElementById("distrito").value;
+            document.getElementById("bairCartao").innerText = document.getElementById("bairro").value;
+        }
+
+        function adicionarHistorico(texto) {
+            const data = new Date().toLocaleString();
+            historico.push(`${data} - ${texto}`);
+            localStorage.setItem("historico", JSON.stringify(historico));
+            mostrarHistorico();
+        }
+
+        function mostrarHistorico() {
+            const div = document.getElementById("historico");
+            div.innerHTML = "<b>Histórico de ações:</b><br>";
+            historico.slice(-50).forEach(h => { div.innerHTML += h + "<br>"; });
+        }
+
+        function cadastrar() {
+            const nome = document.getElementById("nome").value.trim();
+            const nasc = document.getElementById("dataNascimento").value;
+            const prov = document.getElementById("provincia").value;
+            const dist = document.getElementById("distrito").value;
+            const bair = document.getElementById("bairro").value;
+            const fotoFile = document.getElementById("foto").files[0];
+            const logoFile = document.getElementById("logo").files[0];
+
+            if (!nome || !nasc || !prov) return alert("Preencha os campos obrigatórios!");
+
+            const editarNumero = document.getElementById("numCartao").innerText;
+            let leitor;
+            if (editarNumero) {
+                leitor = eleitores.find(e => e.numero === editarNumero);
+                leitor.nome = nome; leitor.nasc = nasc; leitor.prov = prov; leitor.dist = dist; leitor.bair = bair;
+                if (fotoFile) leitor.foto = URL.createObjectURL(fotoFile);
+                if (logoFile) leitor.logo = URL.createObjectURL(logoFile);
+                adicionarHistorico(`Editou cadastro do eleitor: ${nome}`);
+            } else {
+                const numero = gerarNumero();
+                leitor = { numero, nome, nasc, prov, dist, bair };
+                if (fotoFile) leitor.foto = URL.createObjectURL(fotoFile);
+                if (logoFile) leitor.logo = URL.createObjectURL(logoFile);
+                eleitores.push(leitor);
+                adicionarHistorico(`Cadastrou novo eleitor: ${nome}`);
+            }
+
+            localStorage.setItem("eleitores", JSON.stringify(eleitores));
+            mostrarCartao(leitor);
+            atualizarGaleria();
+            limparFormulario();
+            alert("Cadastro salvo com sucesso!");
+        }
+
+        function mostrarCartao(dados) {
+            document.getElementById("numCartao").innerText = dados.numero;
+            document.getElementById("nomeCartao").innerText = dados.nome;
+            document.getElementById("nascCartao").innerText = dados.nasc;
+            document.getElementById("provCartao").innerText = dados.prov;
+            document.getElementById("distCartao").innerText = dados.dist;
+            document.getElementById("bairCartao").innerText = dados.bair;
+            document.getElementById("fotoPreview").src = dados.foto || "";
+            document.getElementById("logoPreview").src = dados.logo || "";
+        }
+
+        function atualizarGaleria() {
+            const galeria = document.getElementById("galeria");
+            const pesquisa = document.getElementById("pesquisa").value.toLowerCase();
+            const filtroProv = document.getElementById("provincia").value;
+            const filtroDist = document.getElementById("distrito").value.toLowerCase();
+            galeria.innerHTML = "";
+            let count = 1;
+            eleitores.filter(e =>
+                e.nome.toLowerCase().includes(pesquisa) &&
+                (filtroProv === "" || e.prov === filtroProv) &&
+                (filtroDist === "" || e.dist.toLowerCase().includes(filtroDist))
+            ).forEach(e => {
+                const div = document.createElement("div");
+                div.className = "mini-cartao";
+                div.innerHTML = `
+      <div style="position:absolute; top:2px; left:3px; font-size:6pt;">#${count++}</div>
+      <img src="${e.foto || ''}" class="mini-foto">
+      <img src="${e.logo || ''}" class="mini-logo">
+      <div class="mini-info">
+        <b>Nº:</b> ${e.numero}<br>
+        <b>Nome:</b> ${e.nome}<br>
+        <b>Prov:</b> ${e.prov}<br>
+        <b>Dist:</b> ${e.dist}<br>
+        <b>Bairro:</b> ${e.bair}
+      </div>
+      <div class="mini-footer">
+        <button onclick="editar('${
